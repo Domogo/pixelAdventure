@@ -5,25 +5,37 @@ using UnityEngine;
 public class PlayerMovement2D : MonoBehaviour 
 { 
     public CharacterController2D controller;
+    public Animator animator;
     public float runSpeed = 80f;
 
     private readonly string HORIZONTAL_AXIS = "Horizontal";
     private float horizontalMove = 0f;
     private bool isPlayerJumping;
 
-    // Update is called once per frame
     void Update() 
     {
         horizontalMove = Input.GetAxisRaw(HORIZONTAL_AXIS) * runSpeed;
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+
         if (Input.GetButtonDown("Jump"))
         {
-            isPlayerJumping = true;
+            SetJumpBooleans(true);
         }
     }
 
     private void FixedUpdate()
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime, false, isPlayerJumping);
-        isPlayerJumping = false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        SetJumpBooleans(false);
+    }
+
+    private void SetJumpBooleans(bool isJumping)
+    {
+        isPlayerJumping = isJumping;
+        animator.SetBool("IsJumping", isJumping);
     }
 }
