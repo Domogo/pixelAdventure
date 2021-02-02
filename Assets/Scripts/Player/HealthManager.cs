@@ -14,4 +14,18 @@ public class HealthManager : MonoBehaviour
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
+
+    //private void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        TakeDamage();
+    //    }
+    //}
+
+    //private void TakeDamage()
+    //{
+    //    currentHealth--;
+    //    healthBar.SetHealth(currentHealth);
+    //}
 }
