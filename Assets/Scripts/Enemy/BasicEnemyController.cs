@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicEnemeyController : MonoBehaviour
+public class BasicEnemyController : MonoBehaviour
 {
     private enum State
     {
@@ -55,6 +55,7 @@ public class BasicEnemeyController : MonoBehaviour
         aliveRb = alive.GetComponent<Rigidbody2D>();
         aliveAnim = alive.GetComponent<Animator>();
 
+        currentHealth = maxHealth;
         facingDirection = 1;
     }
 
@@ -110,6 +111,7 @@ public class BasicEnemeyController : MonoBehaviour
         movement.Set(knockbackSpeed.x * damageDirection, knockbackSpeed.y);
         aliveRb.velocity = movement;
         aliveAnim.SetBool("Knockback", true);
+        aliveAnim.SetBool("IsHit", true);
     }
 
     private void UpdateKnockbackState()
@@ -123,6 +125,7 @@ public class BasicEnemeyController : MonoBehaviour
     private void ExitKnockbackState()
     {
         aliveAnim.SetBool("Knockback", false);
+        aliveAnim.SetBool("IsHit", false);
     }
 
     // Dead state
@@ -181,7 +184,7 @@ public class BasicEnemeyController : MonoBehaviour
         alive.transform.Rotate(0.0f, 180.0f, 0.0f);
     }
 
-    private void TakeDamage(float[] attackDetails)
+    public void TakeDamage(float[] attackDetails)
     {
         currentHealth -= attackDetails[0];
 
